@@ -68,7 +68,7 @@ if env - PATH=${PATH} jail -c path=${JAILDIR} host.hostname=localhost	\
 	export BUILDING_INDEX=1
 	export LOCALBASE=/removeme/usr/local
 	export ECHO_MSG="echo >/dev/null"
-	cd /usr/ports && make describe -j ${JNUM} 1>&2
+	cd /usr/mports && make describe -j ${JNUM} 1>&2
 	cd /tmp && cat INDEX* | sed -e 's/  */ /g' -e 's/|  */|/g'      \
 	    -e 's/  *|/|/g' -e 's./removeme..g' |                       \
 	    sed -E -e ':x' -e 's|/[^/]+/\.\.||' -e 'tx' |               \
