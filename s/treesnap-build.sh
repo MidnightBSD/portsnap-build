@@ -13,20 +13,21 @@ WORKDIR="$3"
 SNAP="$4"
 
 # Temporary directories and mount points
-PORTSDIR=${WORKDIR}/ports
+PORTSDIR=${WORKDIR}/mports
 TMP=${WORKDIR}/tmp
 JAILDIR=${WORKDIR}/jail
 
 # Create mount points
+echo "portsdir: ${PORTSDIR}"
 mkdir ${PORTSDIR} ${TMP} ${JAILDIR}
 
-# Create and mount memory disk for holding exported ports tree
+# Create and mount memory disk for holding exported mports tree
 PORTSMD=`mdconfig -a -t swap -s ${PORTSMDSIZE} -n`
 newfs -f 512 -i 2048 -O 1 -n /dev/md${PORTSMD} >/dev/null
 mount /dev/md${PORTSMD} ${PORTSDIR}
 
 # Export ports tree
-echo "`date`: Exporting \"${TREEREV}\" ports tree"
+echo "`date`: Exporting \"${TREEREV}\" mports tree"
 svn export -q --force ${REPO}/${TREEREV} ${PORTSDIR}
 df -i ${PORTSDIR}
 
@@ -34,7 +35,7 @@ df -i ${PORTSDIR}
 echo "`date`: Building snapshot tarballs"
 sh -e s/treesnap-mktars-all.sh ${PORTSDIR} ${SNAP} ${SNAP}/INDEX ${TMP}
 
-# Unmount the ports tree
+# Unmount the mports tree
 while ! umount /dev/md${PORTSMD}; do
 	sleep 1
 done

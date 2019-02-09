@@ -24,10 +24,10 @@ mkdir ${WORKDIR} ${SNAPDIR} ${TMPDIR} ${SIGDIR}
 SNAPDATE=`date "+%s"`
 
 # Get the latest revision # on the tree
-if ! NEWREV=`sh -e s/svn-getrev.sh head`; then
+if ! NEWREV=`sh -e s/svn-getrev.sh trunk`; then
 	echo "Waiting 5 minutes for svn server to return"
 	sleep 300
-	NEWREV=`sh -e s/svn-getrev.sh head`
+	NEWREV=`sh -e s/svn-getrev.sh trunk`
 fi
 
 # Create a memory disk for holding the snapshot files.
@@ -36,7 +36,7 @@ newfs -O 1 -n /dev/md${SNAPMD} >/dev/null
 mount -onoatime,async /dev/md${SNAPMD} ${SNAPDIR}
 
 # Build a snapshot
-sh -e s/treesnap-build.sh head@${NEWREV} "${DESCRIBES_BUILD}"	\
+sh -e s/treesnap-build.sh trunk@${NEWREV} "${DESCRIBES_BUILD}"	\
     ${TMPDIR} ${SNAPDIR}
 
 # Replace tarballs with "aliased" tarballs

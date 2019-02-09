@@ -35,8 +35,8 @@ mount -o noatime,nosuid /dev/md${JAILMD} ${JAILDIR}
 mkdir ${JAILDIR}/tmp
 mount -o noatime,nosuid,noexec /dev/md${TMPMD} ${JAILDIR}/tmp
 chmod 1777 ${JAILDIR}/tmp
-mkdir ${JAILDIR}/usr ${JAILDIR}/usr/ports
-mount -o noatime,nosuid,noexec,ro ${PORTSDISK} ${JAILDIR}/usr/ports
+mkdir ${JAILDIR}/usr ${JAILDIR}/usr/mports
+mount -o noatime,nosuid,noexec,ro ${PORTSDISK} ${JAILDIR}/usr/mports
 
 # Attach device filesystem with null, fd/*, and std*
 mkdir ${JAILDIR}/dev
@@ -87,7 +87,7 @@ done
 while ! umount ${JAILDIR}/tmp; do
 	sleep 1
 done
-while ! umount ${JAILDIR}/usr/ports; do
+while ! umount ${JAILDIR}/usr/mports; do
 	sleep 1
 done
 while ! umount ${JAILDIR}; do
