@@ -31,7 +31,7 @@ done |
     cut -f 2 -d '|' |
     sort -u |
     tr -d ' ' |
-    lam -s 'CC: ' - -s '@freebsd.org'
+    lam -s 'CC: ' - -s '@midnightbsd.org'
 
 # Blank line and build failure output
 echo
