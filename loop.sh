@@ -40,6 +40,8 @@ while ! [ -f failed ] && ! [ -f adminlock ]; do
 			    sh portsnap-clean.sh 2>&1
 		fi
 	) | sendmail -t
+
+	sleep 60
 done
 
 # Send a warning if builds stop running
