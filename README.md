@@ -25,5 +25,7 @@ where mtime is the number of days to go back.  Files older than 30 days ould get
 ## Errors
 If you see errors from the client about missing snapshots, most likely the s directory on the mirrors is empty or has corrupt files. You will need to manually run a "snap" build after cleanup of the state/work directory and then get the files moved back up to the server with the upload.sh script. 
 e.g.
+
 sh -e build.sh snap 
+
 sh upload.sh
