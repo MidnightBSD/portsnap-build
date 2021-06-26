@@ -39,11 +39,11 @@ while ! [ -f failed ] && ! [ -f adminlock ]; do
 			ssh -i ${UPLOAD_KEY} ${UPLOAD_ACCT}	\
 			    sh portsnap-clean.sh 2>&1
 		fi
-	) | sendmail -t
-
-	sleep 60
+	) | sendmail -t >/dev/null 2>/dev/null
 done
 
 # Send a warning if builds stop running
-echo "Subject: `hostname` Portsnap builds no longer running!" |
-    sendmail ${BUILDMAIL_TO}
+for ADDR in ${BUILDMAIL_TO}; do
+	echo "Subject: `hostname` Portsnap builds no longer running!" |
+	    sendmail ${ADDR}
+done
