@@ -23,20 +23,17 @@ mkdir ${WORKDIR} ${SNAPDIR} ${TMPDIR} ${SIGDIR}
 # Record when we're starting
 SNAPDATE=`date "+%s"`
 
-# Get the latest revision # on the tree
-if ! NEWREV=`sh -e s/svn-getrev.sh trunk`; then
-	echo "Waiting 5 minutes for svn server to return"
-	sleep 300
-	NEWREV=`sh -e s/svn-getrev.sh trunk`
-fi
+# Update and get the latest commit hash
+git --git-dir=${STATEDIR}/gitrepo fetch
+NEWHASH=`git --git-dir=${STATEDIR}/gitrepo rev-parse FETCH_HEAD`
 
 # Create a memory disk for holding the snapshot files.
 SNAPMD=`mdconfig -a -t swap -s ${SNAPMDSIZE} -n`
 newfs -O 1 -n /dev/md${SNAPMD} >/dev/null
-mount -onoatime,async /dev/md${SNAPMD} ${SNAPDIR}
+mount -o noatime,noexec,async /dev/md${SNAPMD} ${SNAPDIR}
 
 # Build a snapshot
-sh -e s/treesnap-build.sh trunk@${NEWREV} "${DESCRIBES_BUILD}"	\
+sh -e s/treesnap-build.sh ${NEWHASH} "${DESCRIBES_BUILD}"	\
     ${TMPDIR} ${SNAPDIR}
 
 # Replace tarballs with "aliased" tarballs
@@ -51,7 +48,7 @@ if ! [ -z ${ALIASFILE} ]; then
 fi
 
 # Send emails if INDEX was broken or fixed
-sh -e s/describes-warn.sh ${SNAPDIR} ${NEWREV} ${STATEDIR}/describes	\
+sh -e s/describes-warn.sh ${SNAPDIR} ${NEWHASH} ${STATEDIR}/describes	\
     "${DESCRIBES_BUILD}"
 
 # Use old DESCRIBE files if the latest ones didn't build
@@ -86,7 +83,7 @@ rm ${SIGDIR}/*.ssl
 
 # Unmount and delete the snapshot disk
 while ! umount /dev/md${SNAPMD}; do
-	sleep 1
+	sleep 1;
 done
 mdconfig -d -u ${SNAPMD}
 
