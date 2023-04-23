@@ -4,6 +4,10 @@
 https://github.com/MestreLion/git-tools.git 
 The shell scripts from this must be on the path (or installed in /usr/local/bin/)
 
+mport install python3 (3.7?)
+
+Seems to work on MidnightBSD 1.2.x but not 2.0.  
+
 ## First Time
 sh -e setup.sh
 
