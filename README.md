@@ -1,5 +1,9 @@
 # portsnap-build
 
+# Dependencies
+https://github.com/MestreLion/git-tools.git 
+The shell scripts from this must be on the path (or installed in /usr/local/bin/)
+
 ## First Time
 sh -e setup.sh
 
