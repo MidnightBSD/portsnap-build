@@ -89,7 +89,7 @@ done
 while ! umount ${JAILDIR}/tmp; do
 	sleep 1;
 done
-while ! umount ${JAILDIR}/usr/ports; do
+while ! umount ${JAILDIR}/usr/mports; do
 	sleep 1;
 done
 while ! umount ${JAILDIR}; do
