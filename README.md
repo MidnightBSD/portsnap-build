@@ -19,6 +19,8 @@ sh -e keygen.sh
 
 edit build.conf
 
+Make sure the jail temp size is big enough to hold the world.tar you created extracted.
+
 sh -e loop.sh
 
 ## Client configuration changes
